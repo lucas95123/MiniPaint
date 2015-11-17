@@ -300,7 +300,7 @@ public class MainWindow extends JFrame{
 
 	public static void main(String[] args){
 		MainWindow mainWindow=new MainWindow();
-		mainWindow.setTitle("Mini Canvas by Lu Kuan V1.0");
+		mainWindow.setTitle("Mini Canvas by Lu Kuan V1.0 拖动以画出图形，并非两次单击 ");
 		mainWindow.setSize(1000, 700);
 		mainWindow.setVisible(true);
 	}
