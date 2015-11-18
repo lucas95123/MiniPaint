@@ -1,5 +1,6 @@
 package frmMain;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Text extends Shapes{
@@ -9,6 +10,7 @@ public class Text extends Shapes{
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
+		g.setColor(color);
 		g.drawString(str, x, y);
 	}
 	
@@ -28,10 +30,11 @@ public class Text extends Shapes{
 				str=str.substring(2, str.length());
 			else
 				str=str.substring(0, str.indexOf("\n"));
-		return "Text "+str+" "+x+" "+y+" ";
+		return "Text "+str+" "+x+" "+y+" "+color.getRed()+" "+color.getGreen()+" "+color.getBlue()+" ";
 	}
 	
-	public Text(String str,int x,int y){
+	public Text(String str,int x,int y,Color c){
+		super(c);
 		this.str=str;
 		this.x=x;
 		this.y=y;

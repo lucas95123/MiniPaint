@@ -1,6 +1,7 @@
 package frmMain;
 
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -29,6 +30,7 @@ public class CanvasPanel extends JPanel{
 	private Mode currentMode=Mode.DRAW;/*Selection mode or drawing mode*/
 	private boolean newShapes=true;/*Whether the drawing one is a new shape*/
 	private boolean modified=false;
+	private Color color;
 	public CanvasPanel(){
 		super();
 		addMouseListener(new MouseAdapter() {
@@ -61,7 +63,7 @@ public class CanvasPanel extends JPanel{
 				if(currentMode==Mode.DRAW){
 					if(previousText!=null){
 						remove(previousText);
-						previousText=new Text(previousText.getText(),e.getX(),e.getY());
+						previousText=new Text(previousText.getText(),e.getX(),e.getY(),color);
 						add(previousText);
 						repaint();
 					}	
@@ -78,7 +80,7 @@ public class CanvasPanel extends JPanel{
 							remove(previousShape);
 						else
 							newShapes=false;
-						previousShape=new Line(pressedX, pressedY, e.getX(), e.getY());
+						previousShape=new Line(pressedX, pressedY, e.getX(), e.getY(),color);
 						add(previousShape);
 						repaint();
 						break;
@@ -88,13 +90,13 @@ public class CanvasPanel extends JPanel{
 						else
 							newShapes=false;
 						if(e.getX()-pressedX<0&&e.getY()-pressedY<0)
-							previousShape=new Rectangle(e.getX(),e.getY(),pressedX-e.getX(),pressedY-e.getY());
+							previousShape=new Rectangle(e.getX(),e.getY(),pressedX-e.getX(),pressedY-e.getY(),color);
 						else if(e.getX()-pressedX<0&&e.getY()-pressedY>0)
-							previousShape=new Rectangle(e.getX(),pressedY,pressedX-e.getX(),e.getY()-pressedY);
+							previousShape=new Rectangle(e.getX(),pressedY,pressedX-e.getX(),e.getY()-pressedY,color);
 						else if(e.getX()-pressedX>0&&e.getY()-pressedY<0)
-							previousShape=new Rectangle(pressedX,e.getY(),e.getX()-pressedX,pressedY-e.getY());
+							previousShape=new Rectangle(pressedX,e.getY(),e.getX()-pressedX,pressedY-e.getY(),color);
 						else
-							previousShape=new Rectangle(pressedX,pressedY,e.getX()-pressedX,e.getY()-pressedY);
+							previousShape=new Rectangle(pressedX,pressedY,e.getX()-pressedX,e.getY()-pressedY,color);
 						add(previousShape);
 						repaint();
 						break;
@@ -104,13 +106,13 @@ public class CanvasPanel extends JPanel{
 						else
 							newShapes=false;
 						if(e.getX()-pressedX<0&&e.getY()-pressedY<0)
-							previousShape=new Oval(e.getX(),e.getY(),pressedX-e.getX(),pressedY-e.getY());
+							previousShape=new Oval(e.getX(),e.getY(),pressedX-e.getX(),pressedY-e.getY(),color);
 						else if(e.getX()-pressedX<0&&e.getY()-pressedY>0)
-							previousShape=new Oval(e.getX(),pressedY,pressedX-e.getX(),e.getY()-pressedY);
+							previousShape=new Oval(e.getX(),pressedY,pressedX-e.getX(),e.getY()-pressedY,color);
 						else if(e.getX()-pressedX>0&&e.getY()-pressedY<0)
-							previousShape=new Oval(pressedX,e.getY(),e.getX()-pressedX,pressedY-e.getY());
+							previousShape=new Oval(pressedX,e.getY(),e.getX()-pressedX,pressedY-e.getY(),color);
 						else
-							previousShape=new Oval(pressedX,pressedY,e.getX()-pressedX,e.getY()-pressedY);
+							previousShape=new Oval(pressedX,pressedY,e.getX()-pressedX,e.getY()-pressedY,color);
 						add(previousShape);
 						repaint();
 						break;
@@ -138,9 +140,9 @@ public class CanvasPanel extends JPanel{
 				else
 					newShapes=false;
 				if(previousText!=null)
-					previousText=new Text(previousText.getText()+s,pressedX,pressedY);
+					previousText=new Text(previousText.getText()+s,pressedX,pressedY,color);
 				else
-					previousText=new Text(s,pressedX,pressedY);
+					previousText=new Text(s,pressedX,pressedY,color);
 				add(previousText);
 				repaint();
 			}
@@ -192,6 +194,10 @@ public class CanvasPanel extends JPanel{
 	
 	public ArrayList<Shapes> getShapeList(){
 		return ShapeList;
+	}
+	
+	public void setColor(Color c){
+		color=c;
 	}
 	
 	private Shapes selecteShape(int x,int y){

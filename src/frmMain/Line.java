@@ -10,7 +10,7 @@ public class Line extends Shapes{
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.BLACK);
+		g.setColor(color);
 		g.drawLine(x1, y1, x2, y2);
 	}
 	
@@ -26,10 +26,11 @@ public class Line extends Shapes{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Line "+x1+" "+y1+" "+x2+" "+y2+"\n";
+		return "Line "+x1+" "+y1+" "+x2+" "+y2+" "+color.getRed()+" "+color.getGreen()+" "+color.getBlue()+"\n";
 	}
 	
-	public Line(int x1,int y1,int x2, int y2){
+	public Line(int x1,int y1,int x2,int y2,Color c){
+		super(c);
 		this.x1=x1;
 		this.y1=y1;
 		this.x2=x2;
