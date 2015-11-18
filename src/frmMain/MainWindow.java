@@ -14,6 +14,8 @@ import java.io.IOException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -22,6 +24,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -41,6 +44,7 @@ public class MainWindow extends JFrame{
 	private JToggleButton btnDrawRectangle;
 	private JToggleButton btnDrawOval;
 	private JToggleButton btnDrawText;
+	private JButton btnColor;
 	private File currentOpenedFile;
 	public MainWindow(){
 		/*MenuBar*/
@@ -136,16 +140,16 @@ public class MainWindow extends JFrame{
 		
 		/*Panels*/
 		JPanel pMain=new JPanel(new BorderLayout());/*The main panel*/
-		JPanel pOption=new JPanel(new FlowLayout(FlowLayout.LEFT,2,0));/*The option panel*/
-		pOption.setBackground(Color.LIGHT_GRAY);
+		JToolBar pOption=new JToolBar();/*The option panel*/
 		pCanvas.setBackground(Color.WHITE);
 		pCanvas.setShape(Button.LINE);
 		pCanvas.setMode(Mode.DRAW);
+		pCanvas.setColor(new Color(0,0,0));
 		add(pMain);
 		
 		/*Components of option panel*/
 		/*Button of drawing Line*/
-		btnDrawLine=new JToggleButton(new ImageIcon("image/shape_line.gif"));
+		btnDrawLine=new JToggleButton("直线",new ImageIcon("image/shape_line.gif"));
 		btnDrawLine.setBackground(new Color(250, 251, 252));
 		btnDrawLine.setSelected(true);
 		btnDrawLine.addActionListener(new ActionListener() {
@@ -165,7 +169,7 @@ public class MainWindow extends JFrame{
 			}
 		});
 		/*Button of drawing Rectangle*/
-		btnDrawRectangle=new JToggleButton(new ImageIcon("image/shape_rectangle.gif"));
+		btnDrawRectangle=new JToggleButton("矩形",new ImageIcon("image/shape_rectangle.gif"));
 		btnDrawRectangle.setBackground(new Color(250, 251, 252));
 		btnDrawRectangle.addActionListener(new ActionListener() {
 			
@@ -184,7 +188,7 @@ public class MainWindow extends JFrame{
 			}
 		});
 		/*Button of drawing Oval*/
-		btnDrawOval=new JToggleButton(new ImageIcon("image/shape_oval.gif"));
+		btnDrawOval=new JToggleButton("椭圆",new ImageIcon("image/shape_oval.gif"));
 		btnDrawOval.setBackground(new Color(250, 251, 252));
 		btnDrawOval.addActionListener(new ActionListener() {
 			
@@ -203,7 +207,7 @@ public class MainWindow extends JFrame{
 			}
 		});
 		/*Button of drawing Text*/
-		btnDrawText=new JToggleButton(new ImageIcon("image/shape_text.gif"));
+		btnDrawText=new JToggleButton("文本",new ImageIcon("image/shape_text.gif"));
 		btnDrawText.setBackground(new Color(250, 251, 252));
 		btnDrawText.addActionListener(new ActionListener() {
 			
@@ -236,6 +240,18 @@ public class MainWindow extends JFrame{
 					pCanvas.deleteOnCanvas();
 			}
 		});
+		/*Color picker*/
+		btnColor=new JButton("颜色",new ImageIcon("image/shape_color.gif"));
+		btnColor.setBackground(new Color(250, 251, 252));
+		btnColor.setFocusable(false);
+		btnColor.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				pCanvas.setColor(JColorChooser.showDialog(pCanvas, "选择颜色", new Color(0,0,0)));
+			}
+		});
 		
 		/*Set the 4 button as button group*/
 		ButtonGroup btnGroup=new ButtonGroup();
@@ -249,13 +265,13 @@ public class MainWindow extends JFrame{
 		pOption.add(btnDrawRectangle);
 		pOption.add(btnDrawOval);
 		pOption.add(btnDrawText);
+		pOption.add(btnColor);
 		
 		/*Components of main panel*/
 		pMain.add(pOption, BorderLayout.NORTH);
 		pMain.add(pCanvas, BorderLayout.CENTER);
 	}
 	public void saveFile() throws IOException{
-		pCanvas.setModified(false);
 		if(currentOpenedFile!=null)
 			fileManager.saveFile(pCanvas,currentOpenedFile);
 		else{
@@ -264,13 +280,26 @@ public class MainWindow extends JFrame{
 			fc.showSaveDialog(this);
 			currentOpenedFile=fileManager.saveFile(pCanvas, fc.getSelectedFile());
 		}
-	}
-	public void openFile() throws FileNotFoundException{
 		pCanvas.setModified(false);
+	}
+	public void openFile() throws FileNotFoundException{	
 		fc=new JFileChooser();
+		if(pCanvas.isModified()&&!pCanvas.isEmpty()){
+			int returnVal=JOptionPane.showConfirmDialog(pCanvas, "保存当前图像？", "文件未保存", JOptionPane.YES_NO_CANCEL_OPTION);
+			if(returnVal==JOptionPane.YES_OPTION){
+				try{
+					saveFile();
+					pCanvas.makeEmpty();
+				}
+				catch(Exception ex){
+					JOptionPane.showConfirmDialog(pCanvas, ex.toString(), "无法保存文件", JOptionPane.CANCEL_OPTION);
+				}					
+			}
+		}
 		fc.setFileFilter(new FileNameExtensionFilter("绘图数据文件(.drw)", "drw"));
 		fc.showOpenDialog(this);
 		currentOpenedFile=fileManager.openFile(pCanvas, fc.getSelectedFile());
+		pCanvas.setModified(false);
 	}
 	public void saveAsFile() throws IOException{
 		currentOpenedFile=null;

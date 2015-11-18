@@ -1,5 +1,6 @@
 package frmMain;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Oval extends Shapes{
@@ -9,6 +10,7 @@ public class Oval extends Shapes{
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
+		g.setColor(color);
 		g.drawOval(x, y, width, height);
 	}
 	
@@ -21,10 +23,11 @@ public class Oval extends Shapes{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Oval "+x+" "+y+" "+width+" "+height+"\n";
+		return "Oval "+x+" "+y+" "+width+" "+height+" "+color.getRed()+" "+color.getGreen()+" "+color.getBlue()+"\n";
 	}
 	
-	public Oval(int x,int y,int width,int height){
+	public Oval(int x,int y,int width,int height,Color c){
+		super(c);
 		this.x=x;
 		this.y=y;
 		this.width=width;

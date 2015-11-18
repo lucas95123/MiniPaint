@@ -1,5 +1,6 @@
 package frmMain;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -40,16 +41,20 @@ public class FileManager extends JFrame{
 				String[] str=in.nextLine().split(" ");
 				switch (str[0]) {
 				case "Line":
-					p.add(new Line(Integer.parseInt(str[1]),Integer.parseInt(str[2]),Integer.parseInt(str[3]),Integer.parseInt(str[4])));
+					p.add(new Line(Integer.parseInt(str[1]),Integer.parseInt(str[2]),Integer.parseInt(str[3]),Integer.parseInt(str[4]),
+							new Color(Integer.parseInt(str[5]),Integer.parseInt(str[6]),Integer.parseInt(str[7]))));
 					break;
 				case "Rect":
-					p.add(new Rectangle(Integer.parseInt(str[1]),Integer.parseInt(str[2]),Integer.parseInt(str[3]),Integer.parseInt(str[4])));
+					p.add(new Rectangle(Integer.parseInt(str[1]),Integer.parseInt(str[2]),Integer.parseInt(str[3]),Integer.parseInt(str[4]),
+							new Color(Integer.parseInt(str[5]), Integer.parseInt(str[6]), Integer.parseInt(str[7]))));
 					break;
 				case "Oval":
-					p.add(new Oval(Integer.parseInt(str[1]),Integer.parseInt(str[2]),Integer.parseInt(str[3]),Integer.parseInt(str[4])));
+					p.add(new Oval(Integer.parseInt(str[1]),Integer.parseInt(str[2]),Integer.parseInt(str[3]),Integer.parseInt(str[4]),
+							new Color(Integer.parseInt(str[5]), Integer.parseInt(str[6]), Integer.parseInt(str[7]))));
 					break;
 				case "Text":
-					p.add(new Text(str[1], Integer.parseInt(str[2]), Integer.parseInt(str[3])));
+					p.add(new Text(str[1], Integer.parseInt(str[2]), Integer.parseInt(str[3]),
+							new Color(Integer.parseInt(str[4]), Integer.parseInt(str[5]), Integer.parseInt(str[6]))));
 					break;
 				default:
 					break;
