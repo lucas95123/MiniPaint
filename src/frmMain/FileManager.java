@@ -1,3 +1,9 @@
+/* @file FileManager.java
+* @brief Responsible for saving and opening of Mini Canvas
+* @author lucas95123@outlook.com
+* @version 1.0
+* @date 2015/11/18
+*/
 package frmMain;
 
 import java.awt.Color;

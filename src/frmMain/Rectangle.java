@@ -17,7 +17,7 @@ public class Rectangle extends Shapes{
 	@Override
 	public boolean inside(int x, int y) {
 		// TODO Auto-generated method stub
-		return Math.abs(x-this.x)<width&&Math.abs(y-this.y)<height;
+		return x-this.x>0&&x-this.x<width&&y-this.y>0&&y-this.y<height;
 	}
 	
 	@Override

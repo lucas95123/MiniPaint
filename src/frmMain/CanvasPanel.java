@@ -1,3 +1,9 @@
+/* @file CanvasPanel.java
+* @brief Drawing Panel of Mini Canvas
+* @author lucas95123@outlook.com
+* @version 1.0
+* @date 2015/11/17
+*/
 package frmMain;
 
 
@@ -12,7 +18,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 enum Mode{
-	DRAW,SELECT;
+	DRAW,TEXT,SELECT;
 }
 
 public class CanvasPanel extends JPanel{
@@ -37,7 +43,7 @@ public class CanvasPanel extends JPanel{
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(currentMode==Mode.DRAW){
+				if(currentMode!=Mode.SELECT){
 					pressedX=e.getX();
 					pressedY=e.getY();
 					newShapes=true;
@@ -50,6 +56,9 @@ public class CanvasPanel extends JPanel{
 				if(currentMode==Mode.DRAW){
 					setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 				}
+				else if(currentMode==Mode.TEXT){
+					setCursor(new Cursor(Cursor.TEXT_CURSOR));
+				}
 				else{
 					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
@@ -60,7 +69,7 @@ public class CanvasPanel extends JPanel{
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(currentMode==Mode.DRAW){
+				if(currentMode!=Mode.SELECT){
 					if(previousText!=null){
 						remove(previousText);
 						previousText=new Text(previousText.getText(),e.getX(),e.getY(),color);
@@ -73,7 +82,7 @@ public class CanvasPanel extends JPanel{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(currentMode==Mode.DRAW){
+				if(currentMode!=Mode.SELECT){
 					switch (shapes) {
 					case LINE:
 						if(!newShapes)
@@ -132,7 +141,7 @@ public class CanvasPanel extends JPanel{
 		ShapeList.add(s);
 	}
 	public void addText(String s,boolean end){
-		if(currentMode==Mode.DRAW){
+		if(currentMode!=Mode.SELECT){
 			if(!end)
 			{
 				if(newShapes)

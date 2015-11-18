@@ -1,3 +1,9 @@
+/* @file MainWindow.java
+* @brief MainWindow class of Mini Canvas
+* @author lucas95123@outlook.com
+* @version 1.0
+* @date 2015/11/18
+*/
 package frmMain;
 
 import java.awt.BorderLayout;
@@ -56,6 +62,8 @@ public class MainWindow extends JFrame{
 		menuBar.add(menuFile);
 		JMenu menuEdit=new JMenu("编辑");
 		menuBar.add(menuEdit);
+		JMenu menuHelp=new JMenu("帮助");
+		menuBar.add(menuHelp);
 		
 		/*Menu item of File*/
 		JMenuItem menuItemNew=new JMenuItem("新建",new ImageIcon("image/menu_new.gif"));
@@ -136,11 +144,37 @@ public class MainWindow extends JFrame{
 			}
 		});
 		menuEdit.add(menuItemDraw);
-		menuEdit.add(menuItemSelect);	
+		menuEdit.add(menuItemSelect);
+		
+		/*Menu item of Edit*/
+		JMenuItem menuItemManual=new JMenuItem("使用说明");
+		JMenuItem menuItemAbout=new JMenuItem("关于Mini Canvas");
+		menuItemManual.setBackground(Color.WHITE);
+		menuItemManual.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JOptionPane.showConfirmDialog(pCanvas, "1.拖拽鼠标以画出图形\n2.在编辑面板中选择绘图或选择模式\n3.绘制文字时，点击画布上一个位置并输入文字，\n"
+						+ "    可以拖拽至画布上任意位置，按回车键释放", "Mini Canvas 使用说明", JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		menuItemAbout.setBackground(Color.WHITE);
+		menuItemAbout.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JOptionPane.showConfirmDialog(pCanvas, "1.拖拽鼠标以画出图形\n2.在编辑面板中选择绘图或选择模式\n3.绘制文字时，点击画布上一个位置并输入文字，\n"
+						+ "    可以拖拽至画布上任意位置，按回车键释放", "Mini Canvas 使用说明", JOptionPane.CANCEL_OPTION);
+			}
+		});
+		menuHelp.add(menuItemManual);
+		menuHelp.add(menuItemAbout);
 		
 		/*Panels*/
 		JPanel pMain=new JPanel(new BorderLayout());/*The main panel*/
-		JToolBar pOption=new JToolBar();/*The option panel*/
+		JToolBar pOption=new JToolBar("工具箱");/*The option panel*/
 		pCanvas.setBackground(Color.WHITE);
 		pCanvas.setShape(Button.LINE);
 		pCanvas.setMode(Mode.DRAW);
@@ -157,6 +191,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				pCanvas.setMode(Mode.DRAW);
 				pCanvas.setShape(Button.LINE);
 			}
 		});
@@ -176,6 +211,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				pCanvas.setMode(Mode.DRAW);
 				pCanvas.setShape(Button.RECTANGLE);
 			}
 		});
@@ -195,6 +231,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				pCanvas.setMode(Mode.DRAW);
 				pCanvas.setShape(Button.OVAL);
 			}
 		});
@@ -214,6 +251,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				pCanvas.setMode(Mode.TEXT);
 				pCanvas.setShape(Button.TEXT);
 			}
 		});
@@ -320,11 +358,14 @@ public class MainWindow extends JFrame{
 			else if(returnVal==JOptionPane.NO_OPTION){
 				pCanvas.makeEmpty();
 			}
-			else;
+			else
+				return;
 		}
 		else{
 			pCanvas.makeEmpty();
 		}
+		currentOpenedFile=null;
+		pCanvas.setModified(false);
 	}
 
 	public static void main(String[] args){
